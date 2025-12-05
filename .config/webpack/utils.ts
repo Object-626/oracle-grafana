@@ -2,14 +2,14 @@ import fs from 'fs';
 import path from 'path';
 import util from 'util';
 import { glob } from 'glob';
-import { SOURCE_DIR } from './constants';
+import { SOURCE_DIR } from './constants.ts';
 
 export function getPackageJson() {
-  return require(path.resolve(process.cwd(), 'package.json'));
+  return JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json'), 'utf-8'));
 }
 
 export function getPluginJson() {
-  return require(path.resolve(process.cwd(), `${SOURCE_DIR}/plugin.json`));
+  return JSON.parse(fs.readFileSync(path.resolve(process.cwd(), `${SOURCE_DIR}/plugin.json`), 'utf-8'));
 }
 
 export function hasReadme() {

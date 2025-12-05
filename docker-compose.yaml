@@ -3,8 +3,6 @@ version: "3.5"
 services:
   grafana:
     container_name: development-grafana
-    depends_on:
-      - oracle
     environment:
       GF_AUTH_ANONYMOUS_ENABLED: 'true'
       GF_LOG_LEVEL: debug
@@ -15,14 +13,3 @@ services:
     restart: always
     volumes:
       - ./dist:/var/lib/grafana/plugins/albertowd-oraclegrafana-datasource:ro
-  
-  oracle:
-    container_name: development-oracle
-    environment:
-      ORACLE_PWD: admin
-    image: container-registry.oracle.com/database/express:21.3.0-xe
-    ports:
-      - 1521:1521/tcp
-    restart: always
-    volumes:
-      - ./example/database:/opt/oracle/scripts/startup:ro

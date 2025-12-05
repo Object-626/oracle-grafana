@@ -11,10 +11,13 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import LiveReloadPlugin from 'webpack-livereload-plugin';
 import path from 'path';
 import ReplaceInFileWebpackPlugin from 'replace-in-file-webpack-plugin';
-import { Configuration } from 'webpack';
+import type { Configuration } from 'webpack';
+import { fileURLToPath } from 'url';
 
-import { getPackageJson, getPluginJson, hasReadme, getEntries } from './utils';
-import { SOURCE_DIR, DIST_DIR } from './constants';
+import { getPackageJson, getPluginJson, hasReadme, getEntries } from './utils.ts';
+import { SOURCE_DIR, DIST_DIR } from './constants.ts';
+
+const __filename = fileURLToPath(import.meta.url);
 
 const pluginJson = getPluginJson();
 

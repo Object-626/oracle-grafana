@@ -12,9 +12,7 @@ export class DataSource extends DataSourceWithBackend<MyQuery, MyDataSourceOptio
 
   query(request: DataQueryRequest<MyQuery>): Observable<DataQueryResponse> {
     for(const query of request.targets) {
-      if (request.scopedVars && Object.keys(request.scopedVars).length > 0) {
-        query.o_parsed = interpolate(query.o_sql || '', request.scopedVars);
-      }
+      query.o_parsed = interpolate(query.o_sql || '', request.scopedVars);
     }
     return super.query(request)
   }
@@ -23,12 +21,14 @@ export class DataSource extends DataSourceWithBackend<MyQuery, MyDataSourceOptio
    * Method implemented to use the Query variable available to this datasource.
    * @param query User defined query.
    * @param options Query options.
-   * @returns 
+   * @returns
    */
   async metricFindQuery(query: string, options?: any): Promise<MetricFindValue[]> {
     if (!query) {
       return Promise.resolve([]);
     }
+
+    const interpolatedQuery = interpolate(query);
 
     const response = this.query({
       interval: '',
@@ -45,7 +45,8 @@ export class DataSource extends DataSourceWithBackend<MyQuery, MyDataSourceOptio
       scopedVars: {},
       targets: [{
         datasource: this.getDefaultQuery(CoreApp.Unknown).datasource,
-        o_parsed: query,
+        o_sql: query,
+        o_parsed: interpolatedQuery,
         refId: 'A'
       }],
       timezone: 'Z',
